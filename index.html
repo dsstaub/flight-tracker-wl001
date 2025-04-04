@@ -21,7 +21,7 @@
   <script>
     async function fetchFlights() {
       try {
-        const res = await fetch('https://YOUR-BACKEND-URL/api/flights');
+        const res = await fetch('https://flight-tracker-wl001.onrender.com/api/flights');
         const flights = await res.json();
         const container = document.getElementById('flights');
         container.innerHTML = '';
