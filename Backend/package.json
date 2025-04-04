@@ -1,5 +1,5 @@
 {
-  "name": "fr24-flight-proxy",
+  "name": "fr24-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
