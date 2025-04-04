@@ -42,7 +42,7 @@
               tapped = true;
               setTimeout(() => tapped = false, 300);
             } else {
-              card.remove(); // double-tap = dismiss
+              card.remove();
             }
           });
 
@@ -53,7 +53,7 @@
           container.appendChild(card);
         });
       } catch (err) {
-        console.error("Failed to fetch flights", err);
+        console.error("Frontend error:", err);
       }
     }
 
