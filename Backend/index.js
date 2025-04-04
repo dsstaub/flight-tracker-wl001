@@ -8,7 +8,7 @@ app.get('/api/flights', async (req, res) => {
   try {
     const response = await fetch('https://fr24api.flightradar24.com/api/live/flight-positions/light?painted_as=AAL&airports=KPIT', {
       headers: {
-        'Authorization': `Bearer ${process.env.FR24_API_KEY}`,
+        'Authorization': `Bearer ${process.env.9e989a4d-9156-4413-829e-c62ba64a1cd9|OYv6EYeCP2l3oyCjkcJUDy7ALfMfWa2O1PoVgYyid1a49ea1}`,
         'Accept': 'application/json'
       }
     });
