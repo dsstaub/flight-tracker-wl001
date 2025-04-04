@@ -6,8 +6,7 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/api/flights', async (req, res) => {
   try {
-    const url = 'https://fr24api.flightradar24.com/api/v1/search/flights?destination=KPIT&painted_as=AAL';
-    const response = await fetch(url, {
+    const response = await fetch('https://fr24api.flightradar24.com/api/v1/search/flights?destination=KPIT&painted_as=AAL', {
       headers: {
         'Authorization': `Bearer ${process.env.FR24_API_KEY}`,
         'Accept': 'application/json'
@@ -34,5 +33,5 @@ app.get('/api/flights', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Backend running on port ${PORT}`);
 });
