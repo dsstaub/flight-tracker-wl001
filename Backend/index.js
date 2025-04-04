@@ -14,7 +14,7 @@ app.get('/api/flights', async (req, res) => {
     });
 
     const data = await response.json();
-    const flights = (data.flights || []).filter(f => f.dest_icao === 'KPIT');
+const flights = (data.flights || []);
 
     const results = flights.map(f => ({
       flight: f.callsign || 'Unknown',
