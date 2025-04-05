@@ -3,62 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AA Flights to PIT</title>
+  <title>Flight Information Lookup</title>
   <style>
     body { background: #111; color: white; font-family: sans-serif; padding: 10px; }
     h1 { font-size: 1.5em; }
-    .flight-card {
+    input, button { padding: 10px; font-size: 1em; }
+    .flight-info {
       background: #222; padding: 15px; margin: 10px 0;
-      border-radius: 6px; cursor: pointer; transition: background 0.2s;
+      border-radius: 6px;
     }
-    .flight-card:hover { background: #333; }
-    .serviced { opacity: 0.6; text-decoration: line-through; }
   </style>
 </head>
 <body>
-  <h1>Inbound AA Flights to KPIT</h1>
-  <div id="flights"></div>
+  <h1>Flight Information Lookup</h1>
+  <form id="flightForm">
+    <input type="text" id="flightNumber" placeholder="Enter Flight Number (e.g., AA100)" required />
+    <button type="submit">Get Flight Info</button>
+  </form>
+  <div id="flightInfo" class="flight-info" style="display: none;"></div>
+
   <script>
-    async function fetchFlights() {
-      try {
-        const res = await fetch('https://flight-tracker-wl001.onrender.com/api/flights');
-        const flights = await res.json();
-        const container = document.getElementById('flights');
-        container.innerHTML = '';
+    document.getElementById('flightForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const flightNumber = document.getElementById('flightNumber').value.trim().toUpperCase();
+      if (!flightNumber) return;
 
-        flights.forEach(f => {
-          const card = document.createElement('div');
-          card.className = 'flight-card';
-          card.innerHTML = `
-            <strong>${f.flight}</strong><br/>
-            ETA: ${f.eta}<br/>
-            Tail: ${f.tail}<br/>
-            Gate: ${f.gate}
-          `;
+      const response = await fetch(`https://flight-tracker-wl001.onrender.com/api/flight/${flightNumber}`);
+      const data = await response.json();
 
-          let tapped = false;
-          card.addEventListener('click', () => {
-            if (!tapped) {
-              tapped = true;
-              setTimeout(() => tapped = false, 300);
-            } else {
-              card.remove();
-            }
-          });
-
-          card.addEventListener('mouseup', () => {
-            if (!tapped) card.classList.toggle('serviced');
-          });
-
-          container.appendChild(card);
-        });
-      } catch (err) {
-        console.error("Frontend error:", err);
+      const infoDiv = document.getElementById('flightInfo');
+      if (response.ok) {
+        infoDiv.innerHTML = `
+          <strong>Flight:</strong> ${data.flight}<br/>
+          <strong>ETA:</strong> ${data.eta}<br/>
+          <strong>Gate:</strong> ${data.gate}<br/>
+          <strong>Aircraft Registration:</strong> ${data.registration}
+        `;
+        infoDiv.style.display = 'block';
+      } else {
+        infoDiv.innerHTML = `<strong>Error:</strong> ${data.error}`;
+        infoDiv.style.display = 'block';
       }
-    }
-
-    fetchFlights();
-    setInterval(fetchFlights, 180000);
+    });
   </script>
 </body>
 </html>
